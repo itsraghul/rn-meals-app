@@ -1,12 +1,21 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useSelector } from 'react-redux';
 import HeaderButton from '../components/HeaderButton';
 import MealList from '../components/MealList';
-import { MEALS } from '../data/dummy-data';
 
 const FavoritesScreen = (props) => {
-  const favMeals = MEALS.filter((meal) => meal.id === 'm1' || meal.id === 'm2');
+  const favMeals = useSelector((state) => state.meals.favoriteMeals);
+  if (favMeals.length === 0 || !favMeals) {
+    return (
+      <View style={styles.screen}>
+        <Text style={{ fontSize: 22, fontFamily: 'lucky-guy' }}>
+          No Fav Meals yet.Add them to find here
+        </Text>
+      </View>
+    );
+  }
   return <MealList displayedMeals={favMeals} navigation={props.navigation} />;
 };
 
